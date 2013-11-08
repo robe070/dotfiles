@@ -1,0 +1,35 @@
+#"\e[2~": yank                       # Insert key
+#"\e[3~": delete-char                # Delete key
+#"\e[H": beginning-of-line           # Home key
+#"\e[F": end-of-line                 # End key
+#"\e[5~": beginning-of-history       # Page up key
+#"\e[6~": end-of-history             # Page down key
+                                 
+#"\e[C": forward-char                # Cursor right
+#"\e[D": backward-char               # Cursor left
+#"\e[A": previous-history            # Cursor up
+#"\e[B": next-history                # Cursor down
+#"\e[5D": backward-word              # Ctrl Cursor left
+#"\e[5C": forward-word               # Ctrl Cursor right
+#"\e[1;5D": backward-word            # Ctrl Cursor left (cygwin)
+#"\e[1;5C": forward-word             # Ctrl Cursor right (cygwin)
+"\e[W": backward-word               # F11
+"\e[X": forward-word                # F12
+
+"\e[Q": history-expand-line         # F5
+"\e[R": glob-list-expansions        # F6
+
+#"\e[5A": history-search-backward    # Ctrl Up
+#"\e[5B": history-search-forward     # Ctrl Down
+#"\e[1;5A": history-search-backward  # Ctrl Up (cygwin)
+#"\e[1;5B": history-search-forward   # Ctrl Down (cygwin)
+"\e[T": history-search-backward     # F8 (to follow dos)
+"\e[S": history-search-forward      # F7
+
+#"\e[3;5~": backward-kill-word       # Ctrl Delete Key
+#"\e[3;2~": kill-word                # Shift Delete Key
+"\e[U": backward-kill-word          # F9
+"\e[V": kill-word                   # F10
+
+"\xff": delete-char
+"\x08": backward-delete-char

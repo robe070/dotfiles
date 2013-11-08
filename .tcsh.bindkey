@@ -1,0 +1,95 @@
+#
+# $Id: .tcsh.bindkey 25280 2013-09-19 14:37:42Z kelvin $
+# $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.tcsh.bindkey $
+#
+
+if ( $?prompt && $?term ) then
+  # applicable for interactive shell only
+
+  bindkey -e                              # Force EMACS key binding
+
+  if ( $term == 'linux' || $term == 'cygwin' ) then
+
+    #bindkey "^[[2~"   yank                  # Insert key
+    bindkey "^[[3~"   delete-char           # Delete key
+    bindkey "^[[1~"   beginning-of-line     # Home key
+    bindkey "^[[4~"   end-of-line           # End key
+    bindkey "^[[5~"   up-history            # Page up key
+    bindkey "^[[6~"   down-history          # Page down key
+
+    bindkey "^[[C"    forward-char          # Cursor right
+    bindkey "^[[D"    backward-char         # Cursor left
+    bindkey "^[[A"    up-history            # Cursor up
+    bindkey "^[[B"    down-history          # Cursor down
+    bindkey "^[^[[D"  backward-word         # Alt Cursor left
+    bindkey "^[^[[C"  forward-word          # Alt Cursor right
+    bindkey "^[[23~"  backward-word         # F11
+    bindkey "^[[24~"  forward-word          # F12
+
+    bindkey "^?"      backward-delete-char  # However the BS key is defined...
+    bindkey "^H"      backward-delete-char  # However the BS key is defined...
+
+  else if ( $term == 'xterm' || $term == 'xterm-color' || $term == 'xterm-debian' ) then         # xterm
+
+    #bindkey "^[[2~"   yank                  # Insert key
+    bindkey "^[[3~"   delete-char           # Delete key
+    bindkey "^[[1~"   beginning-of-line     # Home key
+    bindkey "^[[4~"   end-of-line           # End key
+    bindkey "^[[H"    beginning-of-line     # Home key
+    bindkey "^[[F"    end-of-line           # End key
+    bindkey "^[[5~"   up-history            # Page up key
+    bindkey "^[[6~"   down-history          # Page down key
+
+    bindkey "^[[C"    forward-char          # Cursor right
+    bindkey "^[[D"    backward-char         # Cursor left
+    bindkey "^[[A"    up-history            # Cursor up
+    bindkey "^[[B"    down-history          # Cursor down
+    bindkey "^[[5D"   backward-word         # Ctrl Cursor left
+    bindkey "^[[5C"   forward-word          # Ctrl Cursor right
+    bindkey "^[[1;5D" backward-word         # Ctrl Cursor left (cygwin)
+    bindkey "^[[1;5C" forward-word          # Ctrl Cursor right (cygwin)
+    bindkey "^[[23~"  backward-word         # F11
+    bindkey "^[[24~"  forward-word          # F12
+
+    bindkey "^[[15~"  expand-history        # F5
+    bindkey "^[[17~"  list-glob             # F6
+
+    bindkey "^[[5A"   history-search-backward # Ctrl Up
+    bindkey "^[[5B"   history-search-forward  # Ctrl Down
+    bindkey "^[[1;5A" history-search-backward # Ctrl Up (cygwin)
+    bindkey "^[[1;5B" history-search-forward  # Ctrl Down (cygwin)
+    bindkey "^[[19~"  history-search-backward # F8
+    bindkey "^[[18~"  history-search-forward  # F7
+
+    bindkey "^[[3;5~" backward-delete-word  # Ctrl Delete Key
+    bindkey "^[[3;2~" delete-word           # Shift Delete Key
+    bindkey "^[[20~"  backward-delete-word  # F9
+    bindkey "^[[21~"  delete-word           # F10
+
+    bindkey "^?"      backward-delete-char  # However the BS key is defined...
+    bindkey "^H"      backward-delete-char  # However the BS key is defined...
+
+  else if ( $term == 'cons25' ) then        # FreeBSD console
+
+    #bindkey "^[[2~"   yank                  # Insert key
+    bindkey "^[[3~"   delete-char           # Delete key
+    bindkey "^[[H"    beginning-of-line     # Home key
+    bindkey "^[[F"    end-of-line           # End key
+    bindkey "^[[5~"   up-history            # Page up key
+    bindkey "^[[6~"   down-history          # Page down key
+
+    bindkey "^[[C"    forward-char          # Cursor right
+    bindkey "^[[D"    backward-char         # Cursor left
+    bindkey "^[[A"    up-history            # Cursor up
+    bindkey "^[[B"    down-history          # Cursor down
+    bindkey "^[[W"    backward-word         # F11
+    bindkey "^[[X"    forward-word          # F12
+
+    bindkey "^?"      backward-delete-char  # However the BS key is defined...
+    bindkey "^H"      backward-delete-char  # However the BS key is defined...
+
+  endif # $term
+
+endif # $?prompt
+
+# vim:sts=2:sw=2:ts=8:et:syntax=csh

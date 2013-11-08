@@ -1,0 +1,8 @@
+#
+# $Id: .bash_login.local 25296 2013-09-20 07:44:42Z kelvin $
+# $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login.local $
+#
+
+[ -z "$PS1" ] && return
+
+# vim:sts=2:sw=2:ts=8:et:syntax=sh

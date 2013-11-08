@@ -1,0 +1,324 @@
+#
+# $Id: .bash_login 25279 2013-09-19 14:35:44Z kelvin $
+# $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login $
+#
+
+### basic options
+umask 022
+
+### path should be set up properly by .cshrc
+
+### save current path
+PATH_ORG=$PATH
+
+### set 'lcase'
+_lcase_='tr "[:upper:]" "[:lower:]"'
+
+### check system type
+unset is_cygwin
+unset is_linux
+unset is_sunos
+unset is_openbsd
+case `uname -s` in
+  [Cc][Yy][Gg][Ww][Ii][Nn]*) is_cygwin=1 ;;
+  [Ll][Ii][Nn][Uu][Xx]*) is_linux=1 ;;
+  [Ss][Uu][Nn][Oo][Ss]*) is_sunos=1 ;;
+  [Oo][Pp][Ee][Nn][Bb][Ss][Dd]*) is_openbsd=1 ;;
+esac
+
+### check root user
+unset is_root
+if [ -z "$is_sunos" ]; then
+  [ `id -u` -eq 0 ] && is_root=1
+else
+  [ -x /usr/local/bin/id ] && [ `/usr/local/bin/id -u` -eq 0 ] && is_root=1
+fi
+
+### locate 'which'
+unalias which >/dev/null 2>&1
+unset _which_
+for _w in ~/bin /usr/gnu/bin /usr/local/bin /usr/bin /bin; do
+  if [ -x "$_w/which" ]; then
+    _which_="$_w/which"
+    break
+  fi
+done
+unset _w
+if [ -n "$is_sunos" -o -z "$_which_" \
+      -o `dd if="$_which_" bs=1 count=2 2>/dev/null` = '#!' ]; then
+  _which_='echo'
+fi
+
+### set shell
+shell_basename=`echo $0 | sed -e 's/^[ 	]*-*//'`
+shell_basename=`basename "$shell_basename"`
+case $shell_basename in
+bash*)
+  # as 'which' itself may be a shell script on some systems,
+  # so DO NOT call 'which' for interactive shell
+  if [ \( -n "$PS1" -a "$_which_" != "echo" \) -o -n "$is_cygwin" ]; then
+    export SHELL="`$_which_ $shell_basename 2>/dev/null`"
+  fi
+  ;;
+esac
+unset shell_basename
+
+### settings for interactive shell
+if [ -n "$PS1" ]; then
+
+  shopt -s checkwinsize
+  shopt -s no_empty_cmd_completion
+  shopt -u hostcomplete
+
+  export BLOCKSIZE=K
+
+  export EXINIT='set showmode'
+  export EDITOR="`$_which_ vim 2>/dev/null`"
+  export VISUAL="$EDITOR"
+  #export VIM='/usr/share/vim'
+  unset VIM
+
+  export PAGER="`$_which_ less 2>/dev/null`"
+  if [ -z "$is_sunos" ]; then
+    export LESS='-i -X -d --shift=10'
+  else
+    export LESS='-i -X -d'
+  fi
+
+  if [ "$_which_" != "echo" ]; then
+    alias Which=\""$_which_"\"
+    #alias which_=\""$_which_"\"
+    alias whichx=\""$_which_"\"" -a"
+  fi
+
+  alias Ls=\""`$_which_ ls 2>/dev/null`"\"" -a"
+  alias Lf='Ls -FC'
+  alias L='Ls -l'
+
+  if [ -n "$is_cygwin" -o -n "$is_linux" ]; then
+    alias ls=\""`$_which_ ls 2>/dev/null`"\"" --color=auto -a"
+  else
+    if [ -x "`$_which_ gnuls 2>/dev/null`" ]; then
+      alias ls=\""`$_which_ gnuls 2>/dev/null`"\"" --color=auto -a"
+    elif [ -x "`$_which_ gls 2>/dev/null`" ]; then
+      alias ls=\""`$_which_ gls 2>/dev/null`"\"" --color=auto -a"
+    elif [ -x "/usr/local/bin/gls" ]; then
+      alias ls=\""/usr/local/bin/gls"\"" --color=auto -a"
+    elif [ -x "/usr/gnu/bin/gls" ]; then
+      alias ls=\""/usr/gnu/bin/gls"\"" --color=auto -a"
+    elif [ -x "/usr/gnu/bin/ls" ]; then
+      alias ls=\""/usr/gnu/bin/ls"\"" --color=auto -a"
+    elif [ -x "`$_which_ colorls 2>/dev/null`" ]; then
+      alias ls=\""`$_which_ colorls 2>/dev/null`"\"" -G -a"
+    elif [ -x "`$_which_ ls 2>/dev/null`" ]; then
+      alias ls=\""`$_which_ ls 2>/dev/null`"\"" -a"
+    else
+      alias ls="ls -a"
+    fi
+  fi
+
+  alias lf='ls -FC'
+  alias l='ls -l'
+
+  alias ldpath='( echo "LD_LIBRARY_PATH:-" && ( echo "$LD_LIBRARY_PATH" | tr '\'':'\'' '\''\n'\'' | sed -e '\''s/^/  /'\'' ) )'
+  alias path='( echo "PATH:-" && ( echo "$PATH" | tr '\'':'\'' '\''\n'\'' | sed -e '\''s/^/  /'\'' ) )'
+
+  alias cp='cp -ip'
+  alias mv='mv -i'
+
+  if [ -z "$is_sunos" -a -z "$is_openbsd" ]; then
+    alias ln='ln -i'
+  fi
+
+  alias copy='cp'
+  alias move='mv'
+  alias ren='mv'
+  alias del='rm'
+  #alias type='cat'
+  alias cls='clear'
+
+  alias vi='vim -X'
+  alias vi0='vi -c "normal '\''0"'
+
+  if [ -n "$is_cygwin" -a -x "`$_which_ procps 2>/dev/null`" ]; then
+    alias Ps=\""`$_which_ ps 2>/dev/null`"\"
+    #alias ps_=\""`$_which_ ps 2>/dev/null`"\"
+    alias ps='procps'
+  fi
+
+  alias psl='ps auxww | sort -n +1 | less -SF'
+
+  export HISTSIZE=5000
+  export HISTFILE=~/.bash_history
+  export HISTCONTROL=ignoredups
+
+  if [ "${BASH_VERSINFO[0]}" -ge 3 ]; then
+    export HISTCONTROL="${HISTCONTROL}:erasedups"
+    export HISTTIMEFORMAT='[%H:%M:%S] '
+  else
+    export HISTFILE=~/.bash2_history
+  fi
+
+  if [ "`basename $SHELL`" != bash ]; then
+    alias bash="$SHELL"
+  fi
+
+  IGNOREEOF=
+  FIGNORE='~:.swp'
+
+  #stty erase ^H
+
+  # change command prompt
+  PS1='$ '
+  if [ -n "$BASH_VERSION" ]; then
+    # plain text prompt
+    #PS1='\w:\! \$ '
+    # mono highlight prompt
+    PS1='\u@\h:\w:\! \$ '
+    case "$TERM" in
+    xterm*|rxvt|screen*)
+      # colored prompt for xterm
+      PScolor=106
+      [ -n "$is_root" ] && PScolor=102
+      Pathcolor=103
+      [ "$COLORTERM" = gnome-terminal ] && PScolor="30;$PScolor"
+      [ "$COLORTERM" = gnome-terminal ] && Pathcolor="30;$Pathcolor"
+      PS1='\[\e['$PScolor'm\]\u@\h\[\e[m\]:\[\e['$Pathcolor'm\]\w\[\e[m\]:\! \$ '
+      unset PScolor
+      unset Pathcolor
+      ;;
+    cons25|cygwin|linux|vt220)
+      PScolor=36
+      [ -n "$is_root" ] && PScolor=32
+      PS1='\[\e[01;'$PScolor'm\]\u@\h\[\e[0m\]:\[\e[01;33m\]\w\[\e[0m\]:\[\e[01;41m\]\!\[\e[0m\] \$ '
+      unset PScolor
+      ;;
+    esac
+  fi
+
+  unset _dircolors_
+  for _d in dircolors gdircolors; do
+    for _p in ~/bin /usr/gnu/bin /usr/local/bin /usr/bin /bin; do
+      if [ -x "$_p/$_d" ]; then
+        _dircolors_="$_p/$_d"
+        break
+      fi
+    done
+    [ -n "$_dircolors_" ] && break
+  done
+  unset _p
+  unset _d
+  if [ -x "$_dircolors_" ]; then
+    case "$TERM" in
+      xterm*)
+        DIRCOLORS_CONF=~/.dircolors.d/dircolors.xterm
+        ;;
+      screen*)
+        DIRCOLORS_CONF=~/.dircolors.d/dircolors.screen
+        ;;
+      *)
+        if [ -n "$TERM" ]; then
+          DIRCOLORS_CONF=~/.dircolors.d/dircolors."$TERM"
+        else
+          DIRCOLORS_CONF=
+        fi
+        ;;
+    esac
+    if [ -n "$DIRCOLORS_CONF" -a -f "$DIRCOLORS_CONF" ]; then
+      eval `"$_dircolors_" "$DIRCOLORS_CONF"`
+    else
+      eval `"$_dircolors_"`
+    fi
+    unset DIRCOLORS_CONF
+  fi
+  unset _dircolors_
+
+  if [ "$MY_XTERM_ID" != "" ]; then
+    PC_XTERM_ID="[$MY_XTERM_ID]"
+  else
+    PC_XTERM_ID=
+  fi
+  case "$TERM" in
+    xterm*)
+      PROMPT_COMMAND='echo -ne "\e]0;'"$PC_XTERM_ID"'${HOSTNAME%%.*}:${USER}:${PWD/#${HOME}/~}\a"'
+      ;;
+    screen*)
+      PROMPT_COMMAND='echo -ne "\e_'"$PC_XTERM_ID"'${HOSTNAME%%.*}:${USER}:${PWD/#${HOME}/~}\e\\"'
+      ;;
+    *)
+      ;;
+  esac
+  unset PC_XTERM_ID
+
+  if [ -f ~/.inputrc ]; then
+    bind -f ~/.inputrc
+  fi
+
+  if [ -n "$is_cygwin" ]; then
+    export MAKE_MODE=UNIX
+  fi
+
+  ### setup XFree86
+
+  export desktop=openbox
+  $_which_ openbox-2 >&/dev/null && export desktop=openbox-2
+
+  alias xclockx=\""`$_which_ xclock 2>/dev/null`"\"" -geometry 100x100-0+0 &"
+  alias dclock=\""`$_which_ xclock 2>/dev/null`"\"" -geometry +0-0 -digital -update 1 -strftime '["`hostname`"] %Y-%m-%d %H:%M:%S' &"
+
+  if [ -n "$is_cygwin" ]; then
+    alias xmanx=\""`$_which_ xman 2>/dev/null`"\"" -geometry -110+0 &"
+  else
+    if [ -n "`$_which_ xman 2>/dev/null`" ]; then
+      alias xmanx="env MANPATH="\"'`manpath`'\"" "\""`$_which_ xman 2>/dev/null`"\"" -geometry -110+0 &"
+    fi
+  fi
+
+  alias gv='gvim'
+  alias gv0='gv -c "normal '\''0"'
+  alias gvx='gv -geometry 240x80+0+0'
+  alias gvx0='gv0 -geometry 240x80+0+0'
+
+fi
+
+### cygwin host information
+if [ -n "$is_cygwin" ]; then
+  if [ -n "$HOST" ]; then
+      HOST="`echo $HOST | $_lcase_`"
+  fi
+  if [ -n "$USER" ]; then
+      USER="`echo $USER | $_lcase_`"
+  fi
+  if [ -n "$USERNAME" ]; then
+      USERNAME="`echo $USERNAME | $_lcase_`"
+  fi
+fi
+
+### further local customisation
+if [ -f ~/.bash_login.local ]; then
+  . ~/.bash_login.local
+fi
+
+export RSYNC_RSH='ssh -x'
+#export "GREP_OPTIONS=--exclude=#*# --exclude=*.a --exclude=*.aps --exclude=*.dep --exclude=*.dll --exclude=*.err --exclude=*.exe --exclude=*.exp --exclude=*.ilk --exclude=*.la --exclude=*.lib --exclude=*.lnk --exclude=*.lo --exclude=*.manifest --exclude=*.map --exclude=*.ncb --exclude=*.o --exclude=*.obj --exclude=*.old --exclude=*.opt --exclude=*.orig --exclude=*.pdb --exclude=*.plg --exclude=*.py[co] --exclude=*.rej --exclude=*.res --exclude=*.so --exclude=*.so.* --exclude=*.suo --exclude=*.svn-base --exclude=*.tl[hi] --exclude=*.tmp --exclude=*.user --exclude=*.vspscc --exclude=*.vssscc --exclude=*~ --exclude=.#* --exclude=.*.sw[po] --exclude=.DS_Store --exclude=.cvsignore --exclude=__tags_* --exclude=mssccprj.scc --exclude=tags --exclude=vssver.scc --color=auto --devices=skip --directories=recurse"
+export "GREP_OPTIONS=--exclude-from=$HOME/.grep_exclude --color=auto --devices=skip --directories=recurse"
+
+### tell your fortune
+if [ -n "$is_cygwin" ]; then
+  _fortune_='/usr/bin/fortune'
+else
+  _fortune_='/usr/games/fortune'
+fi
+[ -x "$_fortune_" ] && ( echo ''; "$_fortune_"; echo '' )
+unset _fortune_
+
+### clean up
+unset _which_
+unset _lcase_
+unset is_cygwin
+unset is_linux
+unset is_sunos
+unset is_openbsd
+unset is_root
+
+# vim:sts=2:sw=2:ts=8:et:syntax=sh

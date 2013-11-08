@@ -1,0 +1,8 @@
+^[[A	back-line
+^[[B	forw-line
+^[[D	left-scroll
+^[[C	right-scroll
+^[[5~	back-screen
+^[[6~	forw-screen
+^[[1~	goto-line
+^[[4~	goto-end

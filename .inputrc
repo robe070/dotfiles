@@ -1,0 +1,20 @@
+$if term=xterm
+    $include ~/.inputrc.d/inputrc.xterm
+$endif
+$if term=cons25
+    $include ~/.inputrc.d/inputrc.cons25
+$endif
+$if term=cygwin
+    $include ~/.inputrc.d/inputrc.cygwin
+$endif
+$if term=screen
+    $include ~/.inputrc.d/inputrc.screen
+$endif
+$if term=linux
+    $include ~/.inputrc.d/inputrc.linux
+$endif
+
+#set bell-style none
+set page-completions off
+set completion-query-items 250
+#set show-all-if-ambiguous on
