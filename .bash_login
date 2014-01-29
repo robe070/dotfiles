@@ -1,5 +1,5 @@
 #
-# $Id: .bash_login 25279 2013-09-19 14:35:44Z kelvin $
+# $Id: .bash_login 26543 2014-01-29 04:17:03Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login $
 #
 
@@ -240,10 +240,10 @@ if [ -n "$PS1" ]; then
   fi
   case "$TERM" in
     xterm*)
-      PROMPT_COMMAND='echo -ne "\e]0;'"$PC_XTERM_ID"'${HOSTNAME%%.*}:${USER}:${PWD/#${HOME}/~}\a"'
+      PROMPT_COMMAND='echo -ne "\e]0;'"$PC_XTERM_ID${HOSTNAME%%.*}:${USER}"':${PWD/#${HOME}/~}\a"'
       ;;
     screen*)
-      PROMPT_COMMAND='echo -ne "\e_'"$PC_XTERM_ID"'${HOSTNAME%%.*}:${USER}:${PWD/#${HOME}/~}\e\\"'
+      PROMPT_COMMAND='echo -ne "\e_'"$PC_XTERM_ID${HOSTNAME%%.*}:${USER}"':${PWD/#${HOME}/~}\e\\"'
       ;;
     *)
       ;;
