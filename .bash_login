@@ -1,10 +1,10 @@
 #
-# $Id: .bash_login 26543 2014-01-29 04:17:03Z kelvin $
+# $Id: .bash_login 30495 2014-12-08 03:43:29Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login $
 #
 
 ### basic options
-umask 022
+#umask 022
 
 ### path should be set up properly by .cshrc
 
@@ -260,8 +260,8 @@ if [ -n "$PS1" ]; then
 
   ### setup XFree86
 
-  export desktop=openbox
-  $_which_ openbox-2 >&/dev/null && export desktop=openbox-2
+  #export desktop=openbox
+  #$_which_ openbox-2 >&/dev/null && export desktop=openbox-2
 
   alias xclockx=\""`$_which_ xclock 2>/dev/null`"\"" -geometry 100x100-0+0 &"
   alias dclock=\""`$_which_ xclock 2>/dev/null`"\"" -geometry +0-0 -digital -update 1 -strftime '["`hostname`"] %Y-%m-%d %H:%M:%S' &"
@@ -276,8 +276,8 @@ if [ -n "$PS1" ]; then
 
   alias gv='gvim'
   alias gv0='gv -c "normal '\''0"'
-  alias gvx='gv -geometry 240x80+0+0'
-  alias gvx0='gv0 -geometry 240x80+0+0'
+  alias gvx='gv -geometry 200x80+0+0'
+  alias gvx0='gv0 -geometry 200x80+0+0'
 
 fi
 
@@ -300,8 +300,9 @@ if [ -f ~/.bash_login.local ]; then
 fi
 
 export RSYNC_RSH='ssh -x'
-#export "GREP_OPTIONS=--exclude=#*# --exclude=*.a --exclude=*.aps --exclude=*.dep --exclude=*.dll --exclude=*.err --exclude=*.exe --exclude=*.exp --exclude=*.ilk --exclude=*.la --exclude=*.lib --exclude=*.lnk --exclude=*.lo --exclude=*.manifest --exclude=*.map --exclude=*.ncb --exclude=*.o --exclude=*.obj --exclude=*.old --exclude=*.opt --exclude=*.orig --exclude=*.pdb --exclude=*.plg --exclude=*.py[co] --exclude=*.rej --exclude=*.res --exclude=*.so --exclude=*.so.* --exclude=*.suo --exclude=*.svn-base --exclude=*.tl[hi] --exclude=*.tmp --exclude=*.user --exclude=*.vspscc --exclude=*.vssscc --exclude=*~ --exclude=.#* --exclude=.*.sw[po] --exclude=.DS_Store --exclude=.cvsignore --exclude=__tags_* --exclude=mssccprj.scc --exclude=tags --exclude=vssver.scc --color=auto --devices=skip --directories=recurse"
-export "GREP_OPTIONS=--exclude-from=$HOME/.grep_exclude --color=auto --devices=skip --directories=recurse"
+
+export _GREP_OPTS="--exclude-from=$HOME/.grep_exclude --color=auto --devices=skip --directories=recurse"
+alias grep="grep $_GREP_OPTS"
 
 ### tell your fortune
 if [ -n "$is_cygwin" ]; then

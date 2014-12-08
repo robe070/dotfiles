@@ -1,10 +1,10 @@
 #
-# $Id: .login 25299 2013-09-20 09:37:23Z kelvin $
+# $Id: .login 30495 2014-12-08 03:43:29Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.login $
 #
 
 ### basic options
-umask 022
+#umask 022
 unset autologout
 
 ### path should be set up properly by .cshrc
@@ -244,7 +244,7 @@ if ( $?prompt ) then
 
   ### setup XFree86
 
-  setenv desktop openbox
+  #setenv desktop openbox
 
   alias xclock \""`$_which_ xclock`"\"" -geometry 100x100-0+0 \!* &"
   alias dclock \""`$_which_ xclock`"\"" -geometry +0-0 -digital -update 1 -strftime '["`hostname`"] %Y-%m-%d %H:%M:%S' \!* &"
@@ -257,8 +257,8 @@ if ( $?prompt ) then
 
   alias gv 'gvim'
   alias gv0 'gv -c "normal '\''0"'
-  alias gvx 'gv -geometry 240x80+0+0'
-  alias gvx0 'gv0 -geometry 240x80+0+0'
+  alias gvx 'gv -geometry 200x80+0+0'
+  alias gvx0 'gv0 -geometry 200x80+0+0'
 
 endif
 
