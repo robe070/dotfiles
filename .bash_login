@@ -1,5 +1,5 @@
 #
-# $Id: .bash_login 30495 2014-12-08 03:43:29Z kelvin $
+# $Id: .bash_login 34624 2015-10-21 04:28:58Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login $
 #
 
@@ -277,7 +277,7 @@ if [ -n "$PS1" ]; then
   alias gv='gvim'
   alias gv0='gv -c "normal '\''0"'
   alias gvx='gv -geometry 200x80+0+0'
-  alias gvx0='gv0 -geometry 200x80+0+0'
+  alias gvx0='gvx -c "normal '\''0"'
 
 fi
 
@@ -303,6 +303,8 @@ export RSYNC_RSH='ssh -x'
 
 export _GREP_OPTS="--exclude-from=$HOME/.grep_exclude --color=auto --devices=skip --directories=recurse"
 alias grep="grep $_GREP_OPTS"
+
+alias diff="diff --exclude='*~' --exclude='*.swp' --exclude='*.o' --exclude='*.so' --exclude='*.obj' --exclude='*.sbr' --exclude='*.pdb' --exclude='*.idb' --exclude='*.bak' --exclude='*.dll' --exclude='*.exe' --exclude='*.ilk' --exclude='*.user'"
 
 ### tell your fortune
 if [ -n "$is_cygwin" ]; then

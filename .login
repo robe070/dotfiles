@@ -1,5 +1,5 @@
 #
-# $Id: .login 30495 2014-12-08 03:43:29Z kelvin $
+# $Id: .login 34624 2015-10-21 04:28:58Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.login $
 #
 
@@ -258,7 +258,7 @@ if ( $?prompt ) then
   alias gv 'gvim'
   alias gv0 'gv -c "normal '\''0"'
   alias gvx 'gv -geometry 200x80+0+0'
-  alias gvx0 'gv0 -geometry 200x80+0+0'
+  alias gvx0 'gvx -c "normal '\''0"'
 
 endif
 

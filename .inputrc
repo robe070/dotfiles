@@ -10,6 +10,9 @@ $endif
 $if term=screen
     $include ~/.inputrc.d/inputrc.screen
 $endif
+$if term=screen.xterm
+    $include ~/.inputrc.d/inputrc.screen.xterm
+$endif
 $if term=linux
     $include ~/.inputrc.d/inputrc.linux
 $endif
