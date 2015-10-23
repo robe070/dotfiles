@@ -1,5 +1,5 @@
 #
-# $Id: dircolors.xterm 25294 2013-09-20 07:43:39Z kelvin $
+# $Id: dircolors.xterm 34661 2015-10-23 05:06:41Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.dircolors.d/dircolors.xterm $
 #
 # Configuration file for dircolors, a utility to help you set the
@@ -53,6 +53,7 @@ TERM screen-w
 TERM screen.Eterm
 TERM screen.rxvt
 TERM screen.linux
+TERM screen.xterm
 TERM st
 TERM st-256color
 TERM terminator
