@@ -12,7 +12,6 @@ find . ! -type d \
     -a ! -regex '.*\/\.svn\/.*' \
     -a ! -name .git \
     -a ! -regex '.*\/\.git\/.*' \
-    -a ! -name .gitignore \
   | env LC_ALL=C sort | tar cvjf dotfiles.tbz -T -
 
 # vim:sts=2:sw=2:ts=8:et:syntax=sh
