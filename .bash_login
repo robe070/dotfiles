@@ -1,5 +1,5 @@
 #
-# $Id: .bash_login 34624 2015-10-21 04:28:58Z kelvin $
+# $Id: .bash_login 35908 2016-02-25 21:55:40Z kelvin $
 # $HeadURL: svn://toucan:7790/trunk/proj/dotfiles/.bash_login $
 #
 
@@ -16,11 +16,13 @@ _lcase_='tr "[:upper:]" "[:lower:]"'
 
 ### check system type
 unset is_cygwin
+unset is_mingw
 unset is_linux
 unset is_sunos
 unset is_openbsd
 case `uname -s` in
   [Cc][Yy][Gg][Ww][Ii][Nn]*) is_cygwin=1 ;;
+  [Mm][Ii][Nn][Gg][Ww]*) is_mingw=1 ;;
   [Ll][Ii][Nn][Uu][Xx]*) is_linux=1 ;;
   [Ss][Uu][Nn][Oo][Ss]*) is_sunos=1 ;;
   [Oo][Pp][Ee][Nn][Bb][Ss][Dd]*) is_openbsd=1 ;;
@@ -95,7 +97,7 @@ if [ -n "$PS1" ]; then
   alias Lf='Ls -FC'
   alias L='Ls -l'
 
-  if [ -n "$is_cygwin" -o -n "$is_linux" ]; then
+  if [ -n "$is_cygwin" -o -n "$is_linux" -o -n "$is_mingw" ]; then
     alias ls=\""`$_which_ ls 2>/dev/null`"\"" --color=auto -a"
   else
     if [ -x "`$_which_ gnuls 2>/dev/null`" ]; then
@@ -319,6 +321,7 @@ unset _fortune_
 unset _which_
 unset _lcase_
 unset is_cygwin
+unset is_mingw
 unset is_linux
 unset is_sunos
 unset is_openbsd
